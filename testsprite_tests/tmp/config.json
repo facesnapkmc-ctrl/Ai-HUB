@@ -1,0 +1,17 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173/C:\\\\PROJECTS\\\\AI Hub\\\\frontend",
+  "executionArgs": {
+    "projectName": "frontend",
+    "projectPath": "C:\\PROJECTS\\AI Hub\\frontend",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-dEA5b_vs2OrNXgSv7bloVVmRxp3yv2CLHofeiuMQddbCOmJhwAX8pfHvezjmyw_u2F6Y3O7hDTnlgdl4WA_mcllbD4qaLmM2opGnisaM596R7qirJSV3y2gC-Na7qrzjTVE"
+    }
+  },
+  "serverPort": 53655
+}

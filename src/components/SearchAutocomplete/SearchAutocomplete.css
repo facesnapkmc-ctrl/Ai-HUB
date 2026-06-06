@@ -1,0 +1,147 @@
+.autocomplete-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  max-width: 600px;
+}
+
+.autocomplete-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.autocomplete-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+}
+
+.autocomplete-input {
+  width: 100%;
+  height: 40px;
+  background-color: var(--clay-bg);
+  border: none;
+  box-shadow: var(--clay-shadow-inner);
+  border-radius: var(--radius-full);
+  padding: 0 40px 0 36px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.autocomplete-input:focus {
+  outline: none;
+  box-shadow: var(--clay-shadow-pressed);
+}
+
+.autocomplete-loader {
+  position: absolute;
+  right: 12px;
+  color: var(--text-muted);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Dropdown ────────────────────────────── */
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--clay-bg);
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-shadow-float);
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-message {
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.autocomplete-results {
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover {
+  background-color: var(--bg-elevated);
+}
+
+.autocomplete-item-img {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.autocomplete-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.autocomplete-item-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.autocomplete-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.autocomplete-item-author {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.autocomplete-see-all {
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  cursor: pointer;
+  background-color: var(--bg-card);
+}
+
+.autocomplete-see-all:hover {
+  background-color: var(--bg-elevated);
+  text-decoration: underline;
+}

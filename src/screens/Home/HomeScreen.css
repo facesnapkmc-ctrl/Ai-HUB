@@ -1,0 +1,214 @@
+/* ═══════════════════════════════════════
+   HOME SCREEN — Responsive
+   ═══════════════════════════════════════ */
+.home-screen {
+  padding: 0 16px;
+  flex: 1;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* ── Hero Section ───────────────────────── */
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 0 24px;
+}
+
+.badge-pill {
+  color: var(--accent-purple);
+  padding: 6px 18px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: 32px;        /* Mobile */
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.hero-btn {
+  max-width: 320px;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 16px;
+}
+
+/* ── Feed Sections ──────────────────────── */
+.feed-section {
+  margin-bottom: 32px;
+}
+
+.pb-32 {
+  padding-bottom: 32px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title h2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.icon-fire  { color: var(--color-warning); }
+.icon-star  { color: var(--accent-teal); }
+.icon-eye   { color: var(--accent-purple); }
+
+.view-all {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  transition: background-color 0.2s;
+}
+
+.view-all:hover {
+  background-color: var(--overlay-hover-strong);
+}
+
+/* ── Mobile: Horizontal Scroll ──────────── */
+.horizontal-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin: 0 -16px;
+  padding: 4px 16px 12px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-scroll > * {
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+}
+
+/* ── Empty / Loading States ─────────────── */
+.feed-empty {
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════ */
+
+/* Tablet (md: 768px+) */
+@media (min-width: 768px) {
+  .home-screen {
+    padding: 0 24px;
+  }
+
+  .hero-section {
+    padding: 40px 0 32px;
+  }
+
+  .hero-title {
+    font-size: 48px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  /* Switch from horizontal scroll to 2-column grid */
+  .horizontal-scroll {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    overflow-x: unset;
+    margin: 0;
+    padding: 4px 0 8px;
+    scroll-snap-type: unset;
+  }
+
+  .horizontal-scroll > * {
+    flex: unset;
+    scroll-snap-align: unset;
+  }
+
+  .section-title h2 {
+    font-size: 20px;
+  }
+}
+
+/* Laptop (lg: 1024px+) */
+@media (min-width: 1024px) {
+  .home-screen {
+    padding: 0 32px;
+  }
+
+  .horizontal-scroll {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .hero-title {
+    font-size: 56px;
+  }
+}
+
+/* Desktop (xl: 1280px+) */
+@media (min-width: 1280px) {
+  .home-screen {
+    padding: 0 40px;
+  }
+
+  .horizontal-scroll {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .hero-title {
+    font-size: 64px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+}
+
+/* Desktop XL (2xl: 1536px+) */
+@media (min-width: 1536px) {
+  .home-screen {
+    padding: 0 64px;
+  }
+  
+  .horizontal-scroll {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+  }
+}

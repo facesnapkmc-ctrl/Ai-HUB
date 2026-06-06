@@ -1,0 +1,223 @@
+/* ═══════════════════════════════════════
+   FULL PROMPT CARD — Responsive Grid Version
+   ═══════════════════════════════════════ */
+.full-prompt-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  height: 100%;
+}
+
+.fpc-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 16px;
+  background-color: var(--bg-default);
+}
+
+.fpc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.fpc-top-right-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+  opacity: 1;
+}
+
+.fpc-action-btn {
+  background: white;
+  color: #0F172A;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+
+.fpc-action-btn:hover {
+  background: #f8fafc;
+  transform: scale(1.05);
+}
+
+.fpc-delete-btn:hover {
+  color: #EF4444;
+}
+
+.full-prompt-card:hover .fpc-image {
+  transform: scale(1.05);
+}
+
+.fpc-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.fpc-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  /* Truncate long titles in grid */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fpc-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.fpc-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.fpc-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.fpc-prompt-text-container {
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.fpc-prompt-text {
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-body);
+  /* Hide prompt text on smaller screens/grids if needed, but let's just clamp it */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fpc-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.fpc-btn-copy, .fpc-btn-use {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  font-size: 13px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+}
+
+.fpc-btn-copy {
+  font-weight: 700;
+  background: var(--btn-copy-bg);
+  color: var(--btn-copy-text);
+}
+
+.fpc-btn-copy:hover {
+  opacity: 0.9;
+}
+
+.fpc-btn-use {
+  font-weight: 600;
+  background-color: var(--btn-use-bg);
+  color: var(--btn-use-text);
+}
+
+/* ── Auth Card (Premium prompts) ──────────────── */
+.fpc-auth-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: var(--bg-elevated);
+  margin-top: auto;
+}
+
+.fpc-lock-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-card);
+  border-radius: 50%;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.fpc-auth-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.fpc-auth-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════ */
+
+/* Tablet & Up (when in multi-column grid) */
+@media (min-width: 768px) {
+  .fpc-title {
+    font-size: 16px;
+  }
+  
+  .fpc-prompt-text {
+    -webkit-line-clamp: 2; /* Less text in smaller grid columns */
+    line-clamp: 2;
+  }
+
+  .fpc-btn-copy, .fpc-btn-use {
+    height: 36px;
+    font-size: 12px;
+  }
+}

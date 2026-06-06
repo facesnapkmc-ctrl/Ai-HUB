@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════
+   DETAILS SCREEN — Responsive
+   ═══════════════════════════════════════ */
+.details-screen {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.details-layout-split {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4/3;
+  margin-top: 16px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-hero);
+  background-color: var(--bg-card);
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-container {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.stats-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+.text-muted {
+  color: var(--text-subtle);
+}
+
+.tags-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.prompt-text-container {
+  margin-bottom: 32px;
+  background-color: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.prompt-text {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ── Auth Card ──────────────────────────────── */
+.auth-card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.lock-icon-wrapper {
+  background-color: var(--bg-card);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.lock-icon {
+  color: var(--text-muted);
+}
+
+.auth-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.auth-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.google-btn {
+  background-color: var(--google-btn-bg) !important;
+  color: var(--google-btn-text) !important;
+  border: 1px solid var(--google-btn-border) !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  padding: 12px 24px !important;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+}
+
+/* ── Action Buttons ─────────────────────────── */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.btn-copy, .btn-use {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-copy {
+  background: var(--btn-copy-bg);
+  color: var(--btn-copy-text);
+  font-weight: 700;
+}
+
+.btn-use {
+  background-color: var(--btn-use-bg);
+  color: var(--btn-use-text);
+  font-weight: 600;
+}
+
+/* ── Related Prompts ────────────────────────── */
+.related-prompts-section {
+  margin-top: 32px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 32px;
+}
+
+.related-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.related-card-placeholder {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  aspect-ratio: 4/5;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.rc-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.rc-text {
+  width: 70%;
+  height: 12px;
+  background-color: var(--bg-elevated);
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════ */
+
+/* Tablet (md: 768px) */
+@media (min-width: 768px) {
+  .details-screen {
+    padding: 0 24px;
+  }
+  
+  .related-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Laptop (lg: 1024px) */
+@media (min-width: 1024px) {
+  .details-screen {
+    padding: 24px 32px;
+  }
+
+  /* ── Split Layout on Laptop/Desktop ── */
+  .details-layout-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .hero-image-wrapper {
+    margin-top: 0;
+    position: sticky;
+    top: 96px; /* offset from top bar */
+    height: calc(100vh - 140px); /* fit within the page height */
+    max-height: 800px;
+    /* Remove aspect-ratio: 1 to prevent it from getting taller than the screen on ultra-wide */
+  }
+
+  .content-container {
+    padding: 0;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .related-prompts-section {
+    margin-top: 64px;
+    padding-top: 48px;
+  }
+  
+  .related-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Desktop (xl: 1280px) */
+@media (min-width: 1280px) {
+  .details-screen {
+    padding: 32px 40px;
+  }
+
+  .details-layout-split {
+    grid-template-columns: 55% 45%;
+    gap: 60px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+}
+
+/* Desktop XL (2xl: 1536px) */
+@media (min-width: 1536px) {
+  .details-screen {
+    padding: 40px 64px;
+  }
+
+  .details-layout-split {
+    gap: 80px;
+  }
+}

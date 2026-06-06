@@ -1,0 +1,98 @@
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  max-width: 1920px;
+  margin: 0 auto;
+  background-color: var(--bg-primary);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Mobile: reserve space for fixed bottom nav */
+@media (max-width: 767px) {
+  .app-container {
+    padding-bottom: 80px;
+  }
+}
+
+/* ── Search bar row (mobile/explore context) ──────────── */
+.search-bar-row {
+  padding: 8px 16px 12px;
+  display: flex;
+  justify-content: center;
+  z-index: 9;
+  background-color: var(--bg-primary);
+}
+
+.search-bar-row.home {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* On tablet+ the search lives inside TopBar — hide this row */
+@media (min-width: 768px) {
+  .search-bar-row {
+    display: none;
+  }
+}
+
+.search-box-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ── Create Prompt Button (Mobile/Home) ──────────── */
+.create-prompt-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #FFD700 0%, #F5A623 100%);
+  color: #5C3A00;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0 20px;
+  height: 40px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.create-prompt-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(245, 166, 35, 0.4);
+}
+
+.create-prompt-icon {
+  margin-right: 2px;
+}
+
+/* ── Page content wrapper (tablet+) ───────────────────── */
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media (min-width: 1280px) {
+  .page-content {
+    padding: 0 40px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .page-content {
+    padding: 0 64px;
+    max-width: 1920px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}

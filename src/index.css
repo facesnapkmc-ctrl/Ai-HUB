@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ═══════════════════════════════════════════════════════
+   DARK THEME (Default)
+   ═══════════════════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  --bg-primary: #121217;
+  --bg-secondary: #1a1a24;
+  --bg-card: #1f1f2e;
+  --bg-elevated: #252432;
+  --bg-surface: #050505;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  --text-muted: #6b6b7b;
+  --text-heading: #E5E7EB;
+  --text-body: #D1D5DB;
+  --text-subtle: #9CA3AF;
+  
+  --accent-purple: #8445f1;
+  --accent-purple-gradient: linear-gradient(135deg, #a855f7 0%, #7b3fe4 100%);
+  --accent-purple-light: #A78BFA;
+  --accent-purple-bg: #4C3185;
+  --accent-teal: #00f0ff;
+  --accent-teal-bg: #115E59;
+  --accent-teal-text: #5EEAD4;
+  --accent-teal-border: #0F766E;
+  
+  --color-success: #10B981;
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.1);
+  --color-warning: #ff9500;
+  --color-purple-text: #8B5CF6;
+  --color-pink-text: #EC4899;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.2);
+  
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --overlay-badge: rgba(0, 0, 0, 0.5);
+  --overlay-hover: rgba(255, 255, 255, 0.03);
+  --overlay-hover-strong: rgba(255, 255, 255, 0.1);
+  --overlay-ghost: rgba(255, 255, 255, 0.05);
+  --back-btn-bg: rgba(0, 0, 0, 0.3);
+  
+  --shadow-glow: 0 0 20px rgba(123, 63, 228, 0.4);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-btn-primary: 0 4px 14px rgba(123, 63, 228, 0.3);
+  --shadow-btn-primary-hover: 0 6px 20px rgba(123, 63, 228, 0.5);
+  --shadow-container: 0 0 50px rgba(0, 0, 0, 0.5);
+  --shadow-hero: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-login: 0 8px 30px rgba(0, 0, 0, 0.12);
+  
+  --container-border: #000;
+  
+  /* Copy / Use buttons */
+  --btn-copy-bg: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
+  --btn-copy-text: #000000;
+  --btn-use-bg: #4C3185;
+  --btn-use-text: #8B5CF6;
+  
+  /* Google button */
+  --google-btn-bg: #FFFFFF;
+  --google-btn-text: #333;
+  --google-btn-border: #ddd;
+  --google-btn-hover: #f9f9f9;
+  
+  /* Visa icon */
+  --visa-bg: white;
+  --visa-text: #1A1F71;
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* Claymorphism Variables (Dark) */
+  --clay-bg: #222230;
+  --clay-shadow-outer: 8px 8px 16px rgba(0, 0, 0, 0.5), -8px -8px 16px rgba(255, 255, 255, 0.04);
+  --clay-shadow-inner: inset 6px 6px 12px rgba(0, 0, 0, 0.5), inset -6px -6px 12px rgba(255, 255, 255, 0.04);
+  --clay-shadow-pressed: inset 8px 8px 16px rgba(0, 0, 0, 0.6), inset -8px -8px 16px rgba(255, 255, 255, 0.03);
+  --clay-shadow-float: 12px 12px 24px rgba(0, 0, 0, 0.6), -12px -12px 24px rgba(255, 255, 255, 0.05);
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIGHT THEME
+   ═══════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  --bg-primary: #F5F5F7;
+  --bg-secondary: #EEEEF0;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F0F0F2;
+  --bg-surface: #E8E8EC;
+  
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a5a6e;
+  --text-muted: #8a8a9a;
+  --text-heading: #2d2d3d;
+  --text-body: #3d3d4d;
+  --text-subtle: #6a6a7a;
+  
+  --accent-purple: #7c3aed;
+  --accent-purple-gradient: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  --accent-purple-light: #7c3aed;
+  --accent-purple-bg: #ede9fe;
+  --accent-teal: #0d9488;
+  --accent-teal-bg: #ccfbf1;
+  --accent-teal-text: #0f766e;
+  --accent-teal-border: #99f6e4;
+  
+  --color-success: #059669;
+  --color-danger: #dc2626;
+  --color-danger-bg: rgba(220, 38, 38, 0.08);
+  --color-warning: #d97706;
+  --color-purple-text: #7c3aed;
+  --color-pink-text: #db2777;
+  
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-subtle: rgba(0, 0, 0, 0.15);
+  
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --overlay-badge: rgba(0, 0, 0, 0.55);
+  --overlay-hover: rgba(0, 0, 0, 0.03);
+  --overlay-hover-strong: rgba(0, 0, 0, 0.06);
+  --overlay-ghost: rgba(0, 0, 0, 0.04);
+  --back-btn-bg: rgba(255, 255, 255, 0.7);
+  
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.2);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-btn-primary: 0 4px 14px rgba(124, 58, 237, 0.2);
+  --shadow-btn-primary-hover: 0 6px 20px rgba(124, 58, 237, 0.35);
+  --shadow-container: 0 0 50px rgba(0, 0, 0, 0.1);
+  --shadow-hero: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --shadow-login: 0 8px 30px rgba(0, 0, 0, 0.08);
+  
+  --container-border: #d0d0d8;
+  
+  --btn-copy-bg: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
+  --btn-copy-text: #000000;
+  --btn-use-bg: #ede9fe;
+  --btn-use-text: #7c3aed;
+  
+  --google-btn-bg: #FFFFFF;
+  --google-btn-text: #333;
+  --google-btn-border: #d0d0d0;
+  --google-btn-hover: #f5f5f5;
+  
+  --visa-bg: #1A1F71;
+  --visa-text: white;
+
+  /* Claymorphism Variables (Light) */
+  --clay-bg: #E8E8ED;
+  --clay-shadow-outer: 8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.8);
+  --clay-shadow-inner: inset 6px 6px 12px rgba(163, 177, 198, 0.5), inset -6px -6px 12px rgba(255, 255, 255, 0.9);
+  --clay-shadow-pressed: inset 8px 8px 16px rgba(163, 177, 198, 0.7), inset -8px -8px 16px rgba(255, 255, 255, 1);
+  --clay-shadow-float: 12px 12px 24px rgba(163, 177, 198, 0.5), -12px -12px 24px rgba(255, 255, 255, 1);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CLAYMORPHISM UTILITY CLASSES
+   ═══════════════════════════════════════════════════════ */
+
+.clay-card {
+  background-color: var(--clay-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--clay-shadow-outer);
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle rim */
+}
+
+.clay-panel {
+  background-color: var(--clay-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-shadow-outer);
+}
+
+.clay-btn {
+  background-color: var(--clay-bg);
+  border-radius: var(--radius-full);
+  box-shadow: var(--clay-shadow-outer);
+  border: none;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.clay-btn:active {
+  box-shadow: var(--clay-shadow-pressed);
+}
+
+.clay-input {
+  background-color: var(--clay-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-shadow-inner);
+  border: none;
+  color: var(--text-primary);
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+}
+
+html {
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Scrollbar styling for horizontal scrolls */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PAGE ANIMATIONS & HOVER EFFECTS (Claymorphism Enhancements)
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes pageSlideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animation to all main pages EXCEPT Settings */
+.home-screen,
+.explore-screen,
+.details-screen,
+.dashboard-screen,
+.library-screen,
+.create-prompt-screen {
+  animation: pageSlideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Card transitions & transforms */
+.home-screen .clay-card,
+.explore-screen .clay-card,
+.details-screen .clay-card,
+.dashboard-screen .clay-card,
+.library-screen .clay-card,
+.create-prompt-screen .clay-card,
+.prompt-card,
+.full-prompt-card,
+.auth-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.home-screen .clay-card:hover,
+.explore-screen .clay-card:hover,
+.details-screen .clay-card:hover,
+.dashboard-screen .clay-card:hover,
+.library-screen .clay-card:hover,
+.create-prompt-screen .clay-card:hover,
+.prompt-card:hover,
+.full-prompt-card:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.4),
+    -8px -8px 16px rgba(255, 255, 255, 0.05),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Button transitions & transforms */
+.home-screen .clay-btn,
+.explore-screen .clay-btn,
+.details-screen .clay-btn,
+.dashboard-screen .clay-btn,
+.library-screen .clay-btn,
+.create-prompt-screen .clay-btn,
+.home-screen button[class*="btn-"],
+.explore-screen button[class*="btn-"],
+.details-screen button[class*="btn-"],
+.dashboard-screen button[class*="btn-"],
+.library-screen button[class*="btn-"],
+.create-prompt-screen button[class*="btn-"],
+.pc-action-btn,
+.fpc-action-btn,
+.category-pill,
+.view-all,
+.tag {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s !important;
+}
+
+.home-screen .clay-btn:hover,
+.explore-screen .clay-btn:hover,
+.details-screen .clay-btn:hover,
+.dashboard-screen .clay-btn:hover,
+.library-screen .clay-btn:hover,
+.create-prompt-screen .clay-btn:hover,
+.home-screen button[class*="btn-"]:hover,
+.explore-screen button[class*="btn-"]:hover,
+.details-screen button[class*="btn-"]:hover,
+.dashboard-screen button[class*="btn-"]:hover,
+.library-screen button[class*="btn-"]:hover,
+.create-prompt-screen button[class*="btn-"]:hover,
+.pc-action-btn:hover,
+.fpc-action-btn:hover,
+.category-pill:hover,
+.view-all:hover {
+  transform: translateY(-2px) !important;
+  opacity: 0.95;
+}
+
+.home-screen .clay-btn:active,
+.explore-screen .clay-btn:active,
+.details-screen .clay-btn:active,
+.dashboard-screen .clay-btn:active,
+.library-screen .clay-btn:active,
+.create-prompt-screen .clay-btn:active,
+.home-screen button[class*="btn-"]:active,
+.explore-screen button[class*="btn-"]:active,
+.details-screen button[class*="btn-"]:active,
+.dashboard-screen button[class*="btn-"]:active,
+.library-screen button[class*="btn-"]:active,
+.create-prompt-screen button[class*="btn-"]:active,
+.pc-action-btn:active,
+.fpc-action-btn:active,
+.category-pill:active,
+.view-all:active {
+  transform: translateY(0px) scale(0.96) !important;
+}

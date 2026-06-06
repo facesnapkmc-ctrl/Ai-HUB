@@ -1,0 +1,44 @@
+.library-screen {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.library-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.library-tabs {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.library-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0;
+  background-color: var(--clay-bg);
+  border: none;
+  box-shadow: var(--clay-shadow-outer);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.library-tab.active {
+  background-color: var(--clay-bg);
+  box-shadow: var(--clay-shadow-pressed);
+  color: var(--accent-purple);
+}
+
+.library-content {
+  padding-top: 20px;
+}

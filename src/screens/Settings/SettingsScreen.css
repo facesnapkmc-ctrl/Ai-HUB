@@ -1,0 +1,79 @@
+.settings-screen {
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  width: 100%;
+  padding: 20px;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  margin-left: 4px;
+}
+
+.settings-card {
+  background-color: var(--clay-bg);
+  border: none;
+  box-shadow: var(--clay-shadow-outer);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.settings-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.settings-item:hover {
+  background-color: var(--overlay-hover);
+}
+
+.item-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.value-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 0 20px;
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.app-version {
+  text-align: center;
+  padding: 20px 0 40px 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.app-version p {
+  margin: 4px 0;
+}
