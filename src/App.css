@@ -1,7 +1,7 @@
 .app-container {
   width: 100%;
   min-height: 100vh;
-  max-width: 1920px;
+  max-width: 100%;
   margin: 0 auto;
   background-color: var(--bg-primary);
   position: relative;
@@ -20,16 +20,20 @@
 
 /* ── Search bar row (mobile/explore context) ──────────── */
 .search-bar-row {
-  padding: 8px 16px 12px;
+  padding: 12px 16px;
   display: flex;
   justify-content: center;
   z-index: 9;
-  background-color: var(--bg-primary);
+  background-color: transparent;
+  position: sticky;
+  top: 60px; /* Below topbar */
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .search-bar-row.home {
-  background-color: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-color);
+  background-color: transparent;
+  border-bottom: 1px solid var(--glass-border);
 }
 
 /* On tablet+ the search lives inside TopBar — hide this row */
@@ -44,6 +48,7 @@
   align-items: center;
   gap: 12px;
   width: 100%;
+  max-width: 600px;
 }
 
 /* ── Create Prompt Button (Mobile/Home) ──────────── */
@@ -51,35 +56,41 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #FFD700 0%, #F5A623 100%);
-  color: #5C3A00;
+  background: var(--accent-purple-gradient);
+  color: white;
   border: none;
   border-radius: var(--radius-full);
   padding: 0 20px;
-  height: 40px;
-  font-weight: 700;
+  height: 44px;
+  font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-btn-primary);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
 }
 
 .create-prompt-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(245, 166, 35, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-primary-hover);
+}
+
+.create-prompt-btn:active {
+  transform: translateY(0);
 }
 
 .create-prompt-icon {
-  margin-right: 2px;
+  margin-right: 4px;
 }
 
-/* ── Page content wrapper (tablet+) ───────────────────── */
+/* ── Page content wrapper ───────────────────── */
 .page-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1200px; /* Desktop max-width constraint */
+  margin: 0 auto;
 }
 
 @media (min-width: 1280px) {
@@ -88,11 +99,3 @@
   }
 }
 
-@media (min-width: 1536px) {
-  .page-content {
-    padding: 0 64px;
-    max-width: 1920px;
-    margin: 0 auto;
-    width: 100%;
-  }
-}

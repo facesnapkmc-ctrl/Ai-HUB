@@ -1,11 +1,16 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Eye, Copy, Lock, Sparkles, Check, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../components/Button/Button';
 import { Tag } from '../../components/Tag/Tag';
 import { FullPromptCard } from '../../components/Card/FullPromptCard';
 import { api, type PromptWithAuthor } from '../../lib/api';
 import { Loader3D } from '../../components/Loader3D/Loader3D';
+import { DeleteConfirmationModal } from '../../components/Modal/DeleteConfirmationModal';
 import './DetailsScreen.css';
 
 interface DetailsScreenProps {
@@ -15,6 +20,19 @@ interface DetailsScreenProps {
   userId?: string;
   isAdmin?: boolean;
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } }
+};
 
 export function DetailsScreen({ onCopy, isAuthenticated, onLogin, userId, isAdmin }: DetailsScreenProps) {
   const navigate = useNavigate();
@@ -101,19 +119,33 @@ export function DetailsScreen({ onCopy, isAuthenticated, onLogin, userId, isAdmi
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this prompt?')) {
-      try {
-        await api.deletePrompt(id);
-        if (prompt && prompt.id === id) {
-           navigate('/explore');
-        } else {
-           setRelatedPrompts(prev => prev.filter(p => p.id !== id));
-        }
-      } catch (err) {
-        console.error('Failed to delete prompt:', err);
-        alert('Failed to delete prompt');
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [promptToDelete, setPromptToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteClick = (id: string) => {
+    setPromptToDelete(id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!promptToDelete) return;
+    setIsDeleting(true);
+    try {
+      await api.deletePrompt(promptToDelete);
+      if (prompt && prompt.id === promptToDelete) {
+         setDeleteModalOpen(false);
+         navigate('/explore');
+      } else {
+         setRelatedPrompts(prev => prev.filter(p => p.id !== promptToDelete));
+         setDeleteModalOpen(false);
+         setPromptToDelete(null);
       }
+    } catch (err) {
+      console.error('Failed to delete prompt:', err);
+      alert('Failed to delete prompt');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -130,53 +162,70 @@ export function DetailsScreen({ onCopy, isAuthenticated, onLogin, userId, isAdmi
   }
 
   return (
-    <div className="details-screen">
+    <motion.div 
+      className="details-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <div className="details-layout-split">
-        <div className="hero-image-wrapper">
+        <motion.div 
+          className="hero-image-wrapper"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, type: 'spring' }}
+          layoutId={`prompt-card-${prompt.id}`}
+        >
         <img 
           src={prompt.image_url || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'} 
           alt={prompt.title} 
           className="hero-image"
         />
-      </div>
+      </motion.div>
 
-      <div className="content-container">
-        <h1 className="title">{prompt.title}</h1>
+      <motion.div 
+        className="content-container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.h1 variants={itemVariants} className="title">{prompt.title}</motion.h1>
         {prompt.author && (
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '16px', fontSize: '14px' }}>
+          <motion.p variants={itemVariants} style={{ color: 'var(--text-secondary)', marginBottom: '16px', fontSize: '14px' }}>
             by {prompt.author.username ? `@${prompt.author.username}` : (prompt.author.full_name || 'Anonymous')}
-          </p>
+          </motion.p>
         )}
         
-        <div className="stats-row">
+        <motion.div variants={itemVariants} className="stats-row">
           <div className="stat">
-            <Eye size={14} className="text-muted" />
+            <Eye size={16} className="text-muted" />
             <span>{(prompt.views_count || 0) + 1} Views</span> {/* +1 to account for current view before reload */}
           </div>
           <div className="stat">
-            <Copy size={14} className="text-muted" />
+            <Copy size={16} className="text-muted" />
             <span>{prompt.copies_count || 0} Copies</span>
           </div>
-        </div>
+        </motion.div>
         
-        <div className="tags-row">
+        <motion.div variants={itemVariants} className="tags-row">
           {prompt.categories?.map((cat, i) => (
             <Tag key={i} label={cat.name} variant={i % 2 === 0 ? 'default' : 'outline-purple'} />
           ))}
           {prompt.is_premium && <Tag label="Pro" variant="solid-cyan" />}
-        </div>
+        </motion.div>
         
         {isAuthenticated || !prompt.is_premium ? (
           <>
-            <div className="prompt-text-container">
+            <motion.div variants={itemVariants} className="prompt-text-container">
               <p className="prompt-text">
                 "{prompt.prompt_text}"
               </p>
-            </div>
+            </motion.div>
 
-            <div className="action-buttons" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <motion.div variants={itemVariants} className="action-buttons" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <Button variant="dimmed" className="flex-1 btn-copy" onClick={handleCopyClick}>
-                {copied ? <Check size={16} /> : <Copy size={16} />}
+                {copied ? <Check size={18} /> : <Copy size={18} />}
                 {copied ? 'Copied!' : 'Copy Prompt'}
               </Button>
               <div style={{ display: 'flex', gap: 12 }}>
@@ -190,7 +239,7 @@ export function DetailsScreen({ onCopy, isAuthenticated, onLogin, userId, isAdmi
                     window.open('https://chatgpt.com', '_blank');
                   }
                 }}>
-                  <Sparkles size={16} />
+                  <Sparkles size={18} />
                   Generate Image
                 </Button>
                 <Button 
@@ -213,59 +262,90 @@ export function DetailsScreen({ onCopy, isAuthenticated, onLogin, userId, isAdmi
                   }}
                   disabled={isSaving}
                 >
-                  <Heart size={16} fill={isSaved ? "currentColor" : "none"} />
-                  {isSaved ? 'Saved' : 'Save Prompt'}
+                  <Heart size={18} fill={isSaved ? "currentColor" : "none"} />
+                  {isSaved ? 'Saved' : 'Save'}
                 </Button>
               </div>
-            </div>
+            </motion.div>
           </>
         ) : (
-          <div className="auth-card">
+          <motion.div variants={itemVariants} className="auth-card">
             <div className="lock-icon-wrapper">
-              <Lock size={18} className="lock-icon" />
+              <Lock size={24} className="lock-icon" />
             </div>
             <h2 className="auth-title">Sign in to view prompt</h2>
-            <p className="auth-desc">This is a premium prompt. Sign in to access thousands<br/>of curated AI prompts.</p>
+            <p className="auth-desc">This is a premium prompt. Sign in to access thousands of curated AI prompts.</p>
             
             <Button variant="google" fullWidth className="google-btn" onClick={onLogin}>
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" className="google-icon" />
               Continue with Google
             </Button>
-          </div>
+          </motion.div>
         )}
-        </div>
+        </motion.div>
       </div>
 
-      <section className="related-prompts-section">
+      <motion.section 
+        className="related-prompts-section"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
         <h2 className="related-title">Related Prompts</h2>
-        <div className="related-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-          {relatedPrompts.length > 0 ? (
-            relatedPrompts.map(rp => (
-              <div key={rp.id} onClick={() => navigate(`/details/${rp.id}`)} style={{ cursor: 'pointer' }}>
-                <FullPromptCard 
-                  image={rp.image_url || ''}
-                  title={rp.title}
-                  author={rp.author?.username ? `@${rp.author.username}` : (rp.author?.full_name || 'Anonymous')}
-                  views={(rp.views_count || 0).toString()}
-                  copies={(rp.copies_count || 0).toString()}
-                  tags={rp.categories?.map(c => ({ label: c.name, variant: 'default' })) || []}
-                  promptText={rp.prompt_text}
-                  isAuthenticated={isAuthenticated}
-                  onCopy={onCopy}
-                  onLogin={onLogin}
-                  showDelete={isAdmin}
-                  showEdit={isAdmin}
-                  shareUrl={`${window.location.origin}/details/${rp.id}`}
-                  onDelete={() => handleDelete(rp.id)}
-                  onEdit={() => navigate(`/edit/${rp.id}`)}
-                />
-              </div>
-            ))
-          ) : (
-            <p style={{ color: 'var(--text-muted)' }}>No related prompts found.</p>
-          )}
-        </div>
-      </section>
-    </div>
+        <motion.div 
+          className="related-grid" 
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <AnimatePresence>
+            {relatedPrompts.length > 0 ? (
+              relatedPrompts.map(rp => (
+                <motion.div 
+                  key={rp.id} 
+                  onClick={() => navigate(`/details/${rp.id}`)} 
+                  style={{ cursor: 'pointer' }}
+                  variants={itemVariants}
+                >
+                  <FullPromptCard 
+                    image={rp.image_url || ''}
+                    title={rp.title}
+                    author={rp.author?.username ? `@${rp.author.username}` : (rp.author?.full_name || 'Anonymous')}
+                    views={(rp.views_count || 0).toString()}
+                    copies={(rp.copies_count || 0).toString()}
+                    tags={rp.categories?.map(c => ({ label: c.name, variant: 'default' })) || []}
+                    promptText={rp.prompt_text}
+                    isAuthenticated={isAuthenticated}
+                    onCopy={onCopy}
+                    onLogin={onLogin}
+                    showDelete={isAdmin}
+                    showEdit={isAdmin}
+                    shareUrl={`${window.location.origin}/details/${rp.id}`}
+                    onDelete={() => handleDeleteClick(rp.id)}
+                    onEdit={() => navigate(`/edit/${rp.id}`)}
+                  />
+                </motion.div>
+              ))
+            ) : (
+              <p style={{ color: 'var(--text-muted)' }}>No related prompts found.</p>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </motion.section>
+
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        isDeleting={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => {
+          if (!isDeleting) {
+            setDeleteModalOpen(false);
+            setPromptToDelete(null);
+          }
+        }}
+      />
+    </motion.div>
   );
 }

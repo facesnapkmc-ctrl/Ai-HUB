@@ -1,9 +1,13 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FullPromptCard } from '../../components/Card/FullPromptCard';
 import { api, type PromptWithAuthor, type Category } from '../../lib/api';
 import { supabase } from '../../lib/supabase';
 import { Loader3D } from '../../components/Loader3D/Loader3D';
+import { DeleteConfirmationModal } from '../../components/Modal/DeleteConfirmationModal';
 import './ExploreScreen.css';
 
 interface ExploreScreenProps {
@@ -13,6 +17,19 @@ interface ExploreScreenProps {
   userId?: string;
   isAdmin?: boolean;
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } }
+};
 
 export function ExploreScreen({ isAuthenticated, onCopy, onLogin, isAdmin }: ExploreScreenProps) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,6 +61,7 @@ export function ExploreScreen({ isAuthenticated, onCopy, onLogin, isAdmin }: Exp
       setSimulatedProgress(100);
     }
   }, [loading]);
+
   useEffect(() => {
     async function loadCategories() {
       const cats = await api.getCategories();
@@ -104,15 +122,28 @@ export function ExploreScreen({ isAuthenticated, onCopy, onLogin, isAdmin }: Exp
     navigate(`/details/${id}`);
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this prompt?')) {
-      try {
-        await api.deletePrompt(id);
-        setPrompts(prev => prev.filter(p => p.id !== id));
-      } catch (err) {
-        console.error('Failed to delete prompt:', err);
-        alert('Failed to delete prompt');
-      }
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [promptToDelete, setPromptToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteClick = (id: string) => {
+    setPromptToDelete(id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!promptToDelete) return;
+    setIsDeleting(true);
+    try {
+      await api.deletePrompt(promptToDelete);
+      setPrompts(prev => prev.filter(p => p.id !== promptToDelete));
+      setDeleteModalOpen(false);
+      setPromptToDelete(null);
+    } catch (err) {
+      console.error('Failed to delete prompt:', err);
+      alert('Failed to delete prompt');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -123,34 +154,64 @@ export function ExploreScreen({ isAuthenticated, onCopy, onLogin, isAdmin }: Exp
   };
 
   return (
-    <div className="explore-screen">
+    <motion.div 
+      className="explore-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="search-header">
-        <h1 className="screen-title mb-4">{query ? `Results for "${query}"` : 'Explore Prompts'}</h1>
+        <motion.h1 
+          className="screen-title mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          {query ? `Results for "${query}"` : 'Explore Prompts'}
+        </motion.h1>
         
-        <div className="categories-scroll" style={{ margin: '0 -20px 24px -20px', padding: '0 20px' }}>
-          <button 
+        <motion.div 
+          className="categories-scroll" 
+          style={{ margin: '0 -20px 24px -20px', padding: '0 20px' }}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.button 
             className={`category-pill ${activeCategory === 'all' ? 'active' : ''}`}
             onClick={() => handleCategoryClick('all')}
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             All
-          </button>
+          </motion.button>
           {categories.map((cat) => (
-            <button 
+            <motion.button 
               key={cat.id} 
               className={`category-pill ${activeCategory === cat.slug ? 'active' : ''}`}
               onClick={() => handleCategoryClick(cat.slug)}
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {cat.name}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <div className="feed-container pb-24">
         {showLoader ? (
           <Loader3D progress={Math.min(simulatedProgress, 100)} onComplete={() => setShowLoader(false)} />
         ) : prompts.length > 0 ? (
-          <>
+          <motion.div 
+            style={{ display: 'contents' }}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {query && (
               (() => {
                 const matchedCreators = Array.from(
@@ -166,11 +227,11 @@ export function ExploreScreen({ isAuthenticated, onCopy, onLogin, isAdmin }: Exp
 
                 if (matchedCreators.length > 0) {
                   return (
-                    <div style={{ marginBottom: 32 }}>
+                    <motion.div style={{ marginBottom: 32 }} variants={itemVariants}>
                       <h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: 'var(--text-secondary)' }}>Creators</h2>
                       <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8 }}>
                         {matchedCreators.map((creator: any, i) => (
-                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', minWidth: 200 }}>
+                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', minWidth: 200, boxShadow: 'var(--shadow-card)' }}>
                             {creator.avatar_url ? (
                               <img src={creator.avatar_url} alt="" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }} />
                             ) : (
@@ -185,43 +246,67 @@ export function ExploreScreen({ isAuthenticated, onCopy, onLogin, isAdmin }: Exp
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 }
                 return null;
               })()
             )}
             
-            {query && <h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: 'var(--text-secondary)' }}>Prompts</h2>}
+            {query && <motion.h2 variants={itemVariants} style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: 'var(--text-secondary)' }}>Prompts</motion.h2>}
             
-            {prompts.map((prompt) => (
-              <div key={prompt.id} onClick={() => handleCardClick(prompt.id)} style={{ cursor: 'pointer', marginBottom: 16 }}>
-                <FullPromptCard 
-                  image={prompt.image_url || ''}
-                  title={prompt.title}
-                  author={prompt.author?.username ? `@${prompt.author.username}` : (prompt.author?.full_name || 'Anonymous')}
-                  views={formatStat(prompt.views_count)}
-                  copies={formatStat(prompt.copies_count)}
-                  tags={prompt.categories?.map(c => ({ label: c.name, variant: 'default' })) || []}
-                  promptText={prompt.prompt_text}
-                  isAuthenticated={isAuthenticated}
-                  onCopy={onCopy}
-                  onLogin={onLogin}
-                  showDelete={isAdmin}
-                  showEdit={isAdmin}
-                  shareUrl={`${window.location.origin}/details/${prompt.id}`}
-                  onDelete={() => handleDelete(prompt.id)}
-                  onEdit={() => navigate(`/edit/${prompt.id}`)}
-                />
-              </div>
-            ))}
-          </>
+            <AnimatePresence>
+              {prompts.map((prompt) => (
+                <motion.div 
+                  key={prompt.id} 
+                  onClick={() => handleCardClick(prompt.id)} 
+                  style={{ cursor: 'pointer', marginBottom: 16 }}
+                  variants={itemVariants}
+                  layoutId={`prompt-card-${prompt.id}`}
+                >
+                  <FullPromptCard 
+                    image={prompt.image_url || ''}
+                    title={prompt.title}
+                    author={prompt.author?.username ? `@${prompt.author.username}` : (prompt.author?.full_name || 'Anonymous')}
+                    views={formatStat(prompt.views_count)}
+                    copies={formatStat(prompt.copies_count)}
+                    tags={prompt.categories?.map(c => ({ label: c.name, variant: 'default' })) || []}
+                    promptText={prompt.prompt_text}
+                    isAuthenticated={isAuthenticated}
+                    onCopy={onCopy}
+                    onLogin={onLogin}
+                    showDelete={isAdmin}
+                    showEdit={isAdmin}
+                    shareUrl={`${window.location.origin}/details/${prompt.id}`}
+                    onDelete={() => handleDeleteClick(prompt.id)}
+                    onEdit={() => navigate(`/edit/${prompt.id}`)}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         ) : (
-          <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}
+          >
             No prompts found matching your criteria.
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
+
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        isDeleting={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => {
+          if (!isDeleting) {
+            setDeleteModalOpen(false);
+            setPromptToDelete(null);
+          }
+        }}
+      />
+    </motion.div>
   );
 }

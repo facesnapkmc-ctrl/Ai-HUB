@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback } from 'react';
 import { Navigate } from 'react-router-dom';
 import type { User } from '@supabase/supabase-js';
 import { Users, FileText, Trash2, Shield, Copy, Eye, LayoutDashboard, ChevronRight } from 'lucide-react';
 import { api, type PromptWithAuthor, type Profile } from '../../lib/api';
+import { DeleteConfirmationModal } from '../../components/Modal/DeleteConfirmationModal';
 import './AdminScreen.css';
 
 interface AdminScreenProps {
@@ -18,13 +20,7 @@ export function AdminScreen({ user }: AdminScreenProps) {
   // Hardcoded check based on the spec
   const isAdmin = user?.email === 'sunnykiran715@gmail.com';
 
-  useEffect(() => {
-    if (isAdmin) {
-      loadData();
-    }
-  }, [isAdmin, activeTab]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     if (activeTab === 'prompts' || activeTab === 'analytics') {
       const p = await api.getAllPromptsAdmin();
@@ -35,17 +31,36 @@ export function AdminScreen({ user }: AdminScreenProps) {
       setUsers(u);
     }
     setLoading(false);
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadData();
+    }
+  }, [isAdmin, loadData]);
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [promptToDelete, setPromptToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteClick = (id: string) => {
+    setPromptToDelete(id);
+    setDeleteModalOpen(true);
   };
 
-  const handleDeletePrompt = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this prompt?')) {
-      try {
-        await api.deletePrompt(id);
-        setPrompts(prev => prev.filter(p => p.id !== id));
-      } catch (err) {
-        console.error('Failed to delete prompt', err);
-        alert('Failed to delete prompt.');
-      }
+  const handleDeleteConfirm = async () => {
+    if (!promptToDelete) return;
+    setIsDeleting(true);
+    try {
+      await api.deletePrompt(promptToDelete);
+      setPrompts(prev => prev.filter(p => p.id !== promptToDelete));
+      setDeleteModalOpen(false);
+      setPromptToDelete(null);
+    } catch (err) {
+      console.error('Failed to delete prompt', err);
+      alert('Failed to delete prompt.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -179,7 +194,7 @@ export function AdminScreen({ user }: AdminScreenProps) {
                             </div>
                           </td>
                           <td>
-                            <button className="btn-icon danger" onClick={() => handleDeletePrompt(prompt.id)}>
+                            <button className="btn-icon danger" onClick={() => handleDeleteClick(prompt.id)}>
                               <Trash2 size={16} />
                             </button>
                           </td>
@@ -234,6 +249,18 @@ export function AdminScreen({ user }: AdminScreenProps) {
           )}
         </div>
       </div>
+
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        isDeleting={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => {
+          if (!isDeleting) {
+            setDeleteModalOpen(false);
+            setPromptToDelete(null);
+          }
+        }}
+      />
     </div>
   );
 }

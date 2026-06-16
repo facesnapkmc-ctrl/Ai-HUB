@@ -1,66 +1,94 @@
 /* ═══════════════════════════════════════
-   FULL PROMPT CARD — Responsive Grid Version
+   FULL PROMPT CARD — Responsive Grid Version (Glass)
    ═══════════════════════════════════════ */
 .full-prompt-card {
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-card);
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 12px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-color);
   height: 100%;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-card);
+}
+
+.full-prompt-card:hover {
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-hero);
+  transform: translateY(-4px);
 }
 
 .fpc-image-wrapper {
   position: relative;
   width: 100%;
   aspect-ratio: 4/5;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: 16px;
-  background-color: var(--bg-default);
+  background-color: var(--bg-elevated);
 }
 
 .fpc-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fpc-top-right-actions {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 12px;
+  right: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   z-index: 2;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.full-prompt-card:hover .fpc-top-right-actions {
   opacity: 1;
+  transform: translateX(0);
+}
+
+/* Make actions always visible on mobile */
+@media (max-width: 767px) {
+  .fpc-top-right-actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .fpc-action-btn {
-  background: white;
-  color: #0F172A;
-  border: none;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fpc-action-btn:hover {
-  background: #f8fafc;
-  transform: scale(1.05);
+  background: var(--overlay-hover-strong);
+  transform: scale(1.1);
 }
 
 .fpc-delete-btn:hover {
-  color: #EF4444;
+  color: var(--color-danger);
+  border-color: var(--color-danger-bg);
 }
 
 .full-prompt-card:hover .fpc-image {
@@ -71,20 +99,22 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding: 0 4px;
 }
 
 .fpc-title {
+  font-family: 'Outfit', sans-serif;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   color: var(--text-primary);
-  /* Truncate long titles in grid */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  letter-spacing: -0.01em;
 }
 
 .fpc-stats {
@@ -98,8 +128,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--text-secondary);
 }
 
@@ -117,10 +147,8 @@
 
 .fpc-prompt-text {
   font-size: 14px;
-  font-style: italic;
-  line-height: 1.5;
-  color: var(--text-body);
-  /* Hide prompt text on smaller screens/grids if needed, but let's just clamp it */
+  line-height: 1.6;
+  color: var(--text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -130,7 +158,7 @@
 
 .fpc-actions {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   margin-top: auto;
 }
 
@@ -140,27 +168,41 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 40px;
-  font-size: 13px;
+  height: 44px;
+  font-size: 14px;
   border-radius: var(--radius-md);
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fpc-btn-copy {
-  font-weight: 700;
   background: var(--btn-copy-bg);
   color: var(--btn-copy-text);
 }
 
 .fpc-btn-copy:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.fpc-btn-copy:active {
+  transform: translateY(0);
 }
 
 .fpc-btn-use {
-  font-weight: 600;
   background-color: var(--btn-use-bg);
   color: var(--btn-use-text);
+}
+
+.fpc-btn-use:hover {
+  background-color: var(--overlay-hover-strong);
+  transform: translateY(-2px);
+}
+
+.fpc-btn-use:active {
+  transform: translateY(0);
 }
 
 /* ── Auth Card (Premium prompts) ──────────────── */
@@ -172,30 +214,33 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background-color: var(--bg-elevated);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
   margin-top: auto;
 }
 
 .fpc-lock-icon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-card);
+  background: var(--accent-purple-gradient);
   border-radius: 50%;
-  color: var(--text-muted);
-  margin-bottom: 8px;
+  color: white;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-btn-primary);
 }
 
 .fpc-auth-title {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   margin-bottom: 4px;
+  color: var(--text-primary);
 }
 
 .fpc-auth-desc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.4;
   margin-bottom: 12px;
@@ -205,19 +250,18 @@
    RESPONSIVE BREAKPOINTS
    ═══════════════════════════════════ */
 
-/* Tablet & Up (when in multi-column grid) */
 @media (min-width: 768px) {
   .fpc-title {
     font-size: 16px;
   }
   
   .fpc-prompt-text {
-    -webkit-line-clamp: 2; /* Less text in smaller grid columns */
+    -webkit-line-clamp: 2;
     line-clamp: 2;
   }
 
   .fpc-btn-copy, .fpc-btn-use {
-    height: 36px;
-    font-size: 12px;
+    height: 40px;
+    font-size: 13px;
   }
 }

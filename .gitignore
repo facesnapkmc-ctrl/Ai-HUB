@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 
 testsprite_tests\tmp\config.json
+
+# Temporary scripts & outputs
+lint.json
+lint_output.txt
+parse-lint.cjs
+remove_animations.cjs
+

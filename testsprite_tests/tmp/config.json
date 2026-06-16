@@ -4,14 +4,14 @@
   "scope": "codebase",
   "localEndpoint": "http://localhost:5173/C:\\\\PROJECTS\\\\AI Hub\\\\frontend",
   "executionArgs": {
-    "projectName": "frontend",
-    "projectPath": "C:\\PROJECTS\\AI Hub\\frontend",
+    "projectName": "AI Hub",
+    "projectPath": "c:\\PROJECTS\\AI Hub\\frontend",
     "testIds": [],
-    "additionalInstruction": "",
+    "additionalInstruction": "Test that the deletion confirmation modal works correctly when deleting a prompt card.",
     "serverMode": "development",
     "envs": {
-      "API_KEY": "sk-user-dEA5b_vs2OrNXgSv7bloVVmRxp3yv2CLHofeiuMQddbCOmJhwAX8pfHvezjmyw_u2F6Y3O7hDTnlgdl4WA_mcllbD4qaLmM2opGnisaM596R7qirJSV3y2gC-Na7qrzjTVE"
+      "API_KEY": "sk-user-J7lWGeCkJlABgQ-Q1Ak5pbMEvkRtRFMJ-inv_MmNPHNleVq2ao58Q5YCPVhu9bH_8iGu_zu0sV-w1T8GfyJ7XU5tn_C5_B_MOjLiuSESfhHuA71xu-FDDtuqyRS91oyJDRw"
     }
   },
-  "serverPort": 53655
+  "serverPort": 56936
 }

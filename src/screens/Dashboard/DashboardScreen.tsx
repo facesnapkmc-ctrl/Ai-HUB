@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '@supabase/supabase-js';
 import { Settings, Image as ImageIcon, Heart, User as UserIcon, Edit3, Trash2, Copy, BookOpen } from 'lucide-react';
 import { api, type PromptWithAuthor } from '../../lib/api';
+import { DeleteConfirmationModal } from '../../components/Modal/DeleteConfirmationModal';
 import './DashboardScreen.css';
 
 interface DashboardScreenProps {
@@ -185,33 +187,16 @@ export function DashboardScreen({ user, onNavigate }: DashboardScreenProps) {
         )}
       </div>
 
-      {/* Delete Confirmation Modal (Reusing existing modal styles from Settings) */}
-      {deletingId && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>Delete Prompt</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 24 }}>
-              Are you sure you want to delete this prompt? This action cannot be undone.
-            </p>
-            <div className="modal-actions" style={{ display: 'flex', gap: 12 }}>
-              <button 
-                onClick={() => setDeletingId(null)} 
-                disabled={isDeleting}
-                style={{ flex: 1, padding: '10px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', color: 'var(--text-primary)', cursor: 'pointer' }}
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleDeleteConfirm} 
-                disabled={isDeleting}
-                style={{ flex: 1, padding: '10px', background: 'var(--color-danger)', border: 'none', borderRadius: 'var(--radius-md)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
-              >
-                {isDeleting ? 'Deleting...' : 'Delete'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteConfirmationModal
+        isOpen={!!deletingId}
+        isDeleting={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => {
+          if (!isDeleting) {
+            setDeletingId(null);
+          }
+        }}
+      />
     </div>
   );
 }

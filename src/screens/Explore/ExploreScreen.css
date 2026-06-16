@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════
-   EXPLORE SCREEN — Responsive
+   EXPLORE SCREEN — Responsive (Modern SaaS)
    ═══════════════════════════════════════ */
 .explore-screen {
   flex: 1;
@@ -7,23 +7,26 @@
   overflow-x: hidden;
   height: 100%;
   width: 100%;
-  max-width: 1920px;
+  max-width: 1440px; /* Constrain max width for better layout */
   margin: 0 auto;
 }
 
 .search-header {
-  padding: 24px 16px 16px;
+  padding: 32px 16px 24px;
 }
 
 .screen-title {
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
 }
 
 .search-bar-container {
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 
 .search-input-wrapper {
@@ -37,49 +40,64 @@
   position: absolute;
   left: 16px;
   color: var(--text-muted);
+  pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  background-color: var(--clay-bg);
-  border: none;
+  background: var(--input-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--input-border);
   border-radius: var(--radius-full);
-  box-shadow: var(--clay-shadow-inner);
-  padding: 14px 16px 14px 42px;
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px 14px 46px;
   color: var(--text-primary);
   font-size: 15px;
   outline: none;
-  transition: box-shadow 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
 }
 
 .search-input:focus {
-  box-shadow: var(--clay-shadow-pressed);
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2), var(--shadow-card);
 }
 
 .filter-btn {
-  background-color: var(--clay-bg);
-  border: none;
-  box-shadow: var(--clay-shadow-outer);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-lg);
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
-  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.filter-btn:hover {
+  background: var(--overlay-hover);
+  border-color: var(--glass-border-strong);
+  transform: translateY(-2px);
 }
 .filter-btn:active {
-  box-shadow: var(--clay-shadow-pressed);
   transform: scale(0.95);
 }
 
 .categories-scroll {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   overflow-x: auto;
   padding: 0 16px 16px;
-  margin: 0 -16px 24px -16px;
+  margin: 0 -16px 32px -16px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -89,22 +107,36 @@
 }
 
 .category-pill {
-  background-color: var(--clay-bg);
-  border: none;
-  box-shadow: var(--clay-shadow-outer);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-full);
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--text-secondary);
   white-space: nowrap;
-  transition: box-shadow 0.2s ease, color 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.category-pill:hover {
+  background: var(--overlay-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
 }
 
 .category-pill.active {
-  background-color: var(--clay-bg);
-  box-shadow: var(--clay-shadow-pressed);
-  color: var(--accent-purple);
+  background: var(--accent-purple-gradient);
+  border-color: transparent;
+  color: white;
+  box-shadow: var(--shadow-btn-primary);
+}
+
+.category-pill.active:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-primary-hover);
 }
 
 /* ── Responsive Grid ──────────────────────── */
@@ -113,6 +145,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
+  padding-bottom: 40px;
 }
 
 /* Tablet (md: 768px+) */

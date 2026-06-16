@@ -1,5 +1,4 @@
 import { ChevronRight, LogOut } from 'lucide-react';
-import { useTheme } from '../../lib/ThemeContext';
 import './SettingsScreen.css';
 
 interface SettingsScreenProps {
@@ -7,9 +6,9 @@ interface SettingsScreenProps {
 }
 
 export function SettingsScreen({ onNavigate }: SettingsScreenProps) {
-  const { theme } = useTheme();
   return (
     <div className="settings-screen">
+      <h1 className="settings-title" style={{ fontSize: '28px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '24px' }}>Settings</h1>
       
       <div className="settings-section">
         <h3 className="section-label">ACCOUNT</h3>
@@ -27,19 +26,6 @@ export function SettingsScreen({ onNavigate }: SettingsScreenProps) {
           <button className="settings-item" onClick={() => onNavigate('billing')}>
             <span>Billing Details</span>
             <ChevronRight size={18} className="text-muted" />
-          </button>
-        </div>
-      </div>
-
-      <div className="settings-section">
-        <h3 className="section-label">APPEARANCE</h3>
-        <div className="settings-card">
-          <button className="settings-item" onClick={() => onNavigate('theme')}>
-            <span>Theme</span>
-            <div className="item-value">
-              <span className="value-text" style={{ textTransform: 'capitalize' }}>{theme}</span>
-              <ChevronRight size={18} className="text-muted" />
-            </div>
           </button>
         </div>
       </div>

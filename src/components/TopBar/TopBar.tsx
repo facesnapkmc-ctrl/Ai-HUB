@@ -3,7 +3,7 @@ import { SearchAutocomplete } from '../SearchAutocomplete/SearchAutocomplete';
 import './TopBar.css';
 
 interface TopBarProps {
-  variant?: 'home' | 'details' | 'settings' | 'explore' | 'library' | 'dashboard' | 'admin';
+  variant?: 'home' | 'details' | 'settings' | 'settings-root' | 'explore' | 'library' | 'dashboard' | 'admin';
   title?: string;
   onBack?: () => void;
   onProfileClick?: () => void;
@@ -27,7 +27,7 @@ export function TopBar({
   onCreateClick
 }: TopBarProps) {
   const isSubPage = variant === 'settings' || variant === 'details';
-  const showSearch = !isSubPage;
+  const showSearch = variant === 'home' || variant === 'explore' || variant === 'library';
 
   return (
     <header className={`top-bar ${variant}`}>
@@ -41,7 +41,7 @@ export function TopBar({
         </div>
       ) : (
         <div className="logo-container">
-          <h2>VisualPrompt</h2>
+          <h2>AI Creator Hub</h2>
         </div>
       )}
 

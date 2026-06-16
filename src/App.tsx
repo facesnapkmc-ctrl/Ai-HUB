@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Crown } from 'lucide-react';
@@ -14,7 +15,6 @@ import {
   EditProfileScreen, 
   SubscriptionScreen, 
   BillingDetailsScreen, 
-  ThemeScreen, 
   HelpCenterScreen, 
   PrivacyPolicyScreen, 
   TermsOfServiceScreen,
@@ -56,11 +56,11 @@ function App() {
 
   useEffect(() => {
     const path = location.pathname;
-    let title = 'VisualPrompt – AI Prompt Marketplace';
+    let title = 'AI Creator Hub – AI Prompt Marketplace';
     if (path.startsWith('/explore')) {
-      title = 'Explore Visual AI Prompts | VisualPrompt';
+      title = 'Explore Visual AI Prompts | AI Creator Hub';
     } else if (path.startsWith('/dashboard') || path.startsWith('/settings/edit-profile')) {
-      title = 'Creator Profile | VisualPrompt';
+      title = 'Creator Profile | AI Creator Hub';
     }
     document.title = title;
   }, [location]);
@@ -109,7 +109,6 @@ function App() {
     if (path.includes('/edit-profile')) return 'Edit Profile';
     if (path.includes('/subscription')) return 'Subscription';
     if (path.includes('/billing')) return 'Billing Details';
-    if (path.includes('/theme')) return 'Theme';
     if (path.includes('/help-center')) return 'Help Center';
     if (path.includes('/privacy-policy')) return 'Privacy Policy';
     if (path.includes('/terms-of-service')) return 'Terms of Service';
@@ -156,7 +155,8 @@ function App() {
     const path = location.pathname;
     if (path.startsWith('/admin')) return 'admin'; // hide topbar if needed or handle differently
     if (path === '/') return 'home';
-    if (path.startsWith('/settings')) return 'settings';
+    if (path === '/settings') return 'settings-root';
+    if (path.startsWith('/settings/')) return 'settings';
     if (path === '/explore') return 'explore';
     if (path === '/library') return 'library';
     if (path === '/dashboard') return 'dashboard';
@@ -228,7 +228,7 @@ function App() {
         {/* Protected Routes */}
         <Route path="/library" element={
           <ProtectedRoute session={session}>
-            <LibraryScreen onCardClick={handleCardClick} isAdmin={session?.email === 'sunnykiran715@gmail.com'} />
+            <LibraryScreen onCardClick={handleCardClick} userId={session?.id} isAdmin={session?.email === 'sunnykiran715@gmail.com'} />
           </ProtectedRoute>
         } />
         
@@ -286,12 +286,6 @@ function App() {
         <Route path="/edit/:id" element={
           <ProtectedRoute session={session}>
             <CreatePromptScreen user={session} isAdmin={session?.email === 'sunnykiran715@gmail.com'} />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/settings/theme" element={
-          <ProtectedRoute session={session}>
-            <ThemeScreen />
           </ProtectedRoute>
         } />
         

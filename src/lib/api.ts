@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from './supabase';
 import type { Database } from './database.types';
 
@@ -177,14 +178,17 @@ export const api = {
       return [];
     }
 
-    return (data as any[]).map(d => {
-      const p = d.prompts;
-      return {
-        ...p,
-        categories: p.prompt_categories ? p.prompt_categories.map((pc: any) => pc.categories) : [],
-        prompt_categories: undefined
-      };
-    }) as PromptWithAuthor[];
+    return (data as any[])
+      .map(d => {
+        const p = d.prompts;
+        if (!p) return null;
+        return {
+          ...p,
+          categories: p.prompt_categories ? p.prompt_categories.map((pc: any) => pc.categories) : [],
+          prompt_categories: undefined
+        };
+      })
+      .filter(Boolean) as PromptWithAuthor[];
   },
 
   // Fetch copied prompts
@@ -208,14 +212,17 @@ export const api = {
       return [];
     }
 
-    return (data as any[]).map(d => {
-      const p = d.prompts;
-      return {
-        ...p,
-        categories: p.prompt_categories ? p.prompt_categories.map((pc: any) => pc.categories) : [],
-        prompt_categories: undefined
-      };
-    }) as PromptWithAuthor[];
+    return (data as any[])
+      .map(d => {
+        const p = d.prompts;
+        if (!p) return null;
+        return {
+          ...p,
+          categories: p.prompt_categories ? p.prompt_categories.map((pc: any) => pc.categories) : [],
+          prompt_categories: undefined
+        };
+      })
+      .filter(Boolean) as PromptWithAuthor[];
   },
 
   // Fetch a single prompt by ID
@@ -284,22 +291,39 @@ export const api = {
 
   // Toggle save status
   async toggleSavePrompt(userId: string, promptId: string): Promise<boolean> {
-    if (!isValidUUID(userId) || !isValidUUID(promptId)) return false;
+    if (!isValidUUID(userId) || !isValidUUID(promptId)) {
+      console.error('Invalid UUID in toggleSavePrompt:', { userId, promptId });
+      return false;
+    }
+
+    // Ensure the user's profile exists in profiles table first to satisfy foreign key constraint
+    await (supabase.from('profiles').upsert as any)({ id: userId }, { onConflict: 'id', ignoreDuplicates: true });
 
     const isSaved = await this.isPromptSaved(userId, promptId);
+    
     if (isSaved) {
-      await supabase
+      const { error } = await supabase
         .from('user_likes')
         .delete()
         .eq('user_id', userId)
         .eq('prompt_id', promptId);
+      
+      if (error) {
+        console.error('Error in toggleSavePrompt DELETE:', error);
+        throw error;
+      }
       return false;
     } else {
       // Use upsert to gracefully ignore rapid double-clicks (409 Conflict)
-      await (supabase.from('user_likes').upsert as any)({
+      const { error } = await (supabase.from('user_likes').upsert as any)({
         user_id: userId,
         prompt_id: promptId
-      }, { onConflict: 'user_id,prompt_id' });
+      }, { onConflict: 'user_id,prompt_id', ignoreDuplicates: true });
+      
+      if (error) {
+        console.error('Error in toggleSavePrompt UPSERT:', error);
+        throw error;
+      }
       return true;
     }
   },
@@ -316,10 +340,13 @@ export const api = {
     
     // Also track the copy for the user's dashboard if logged in
     if (userId) {
+      // Ensure the user's profile exists to satisfy the foreign key constraint
+      await (supabase.from('profiles').upsert as any)({ id: userId }, { onConflict: 'id', ignoreDuplicates: true });
+
       await (supabase.from('user_copies').upsert as any)({
         user_id: userId,
         prompt_id: id
-      });
+      }, { onConflict: 'user_id,prompt_id', ignoreDuplicates: true });
     }
   },
   

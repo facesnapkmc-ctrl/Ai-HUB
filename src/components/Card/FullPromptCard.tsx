@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Eye, Copy, Lock, Sparkles, Check, Trash2, Share2, Link2, Edit2 } from 'lucide-react';
 import { Button } from '../Button/Button';

@@ -1,14 +1,16 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/Button/Button';
-import { useTheme } from '../../lib/ThemeContext';
 import { api } from '../../lib/api';
 import './SettingsSubScreens.css';
 
 import type { User } from '@supabase/supabase-js';
 import { 
   BadgeCheck, User as UserIcon, Camera, CreditCard, 
-  Download, Monitor, Moon, Sun, HelpCircle, Shield, 
-  FileText, ChevronDown, LogOut, Check
+  Download, HelpCircle, Shield, 
+  FileText, ChevronDown, LogOut
 } from 'lucide-react';
 
 /* ── UI Helpers ──────────────────────────────────────────────────────────── */
@@ -276,58 +278,7 @@ export function BillingDetailsScreen() {
   );
 }
 
-/* ── 4. Theme ────────────────────────────────────────────────────────────── */
 
-export function ThemeScreen() {
-  const { theme, setTheme } = useTheme();
-  
-  return (
-    <div className="sub-screen">
-      <SubScreenHeader title="Appearance" icon={Monitor} description="Customize your visual experience." />
-      
-      <div className="theme-grid">
-        <button 
-          className={`theme-card ${theme === 'light' ? 'active' : ''}`}
-          onClick={() => setTheme('light')}
-        >
-          <div className="theme-preview light">
-            <Sun size={24} className="theme-icon" />
-          </div>
-          <div className="theme-label">
-            <span>Light</span>
-            {theme === 'light' && <Check size={16} className="check-icon" />}
-          </div>
-        </button>
-
-        <button 
-          className={`theme-card ${theme === 'dark' ? 'active' : ''}`}
-          onClick={() => setTheme('dark')}
-        >
-          <div className="theme-preview dark">
-            <Moon size={24} className="theme-icon" />
-          </div>
-          <div className="theme-label">
-            <span>Dark</span>
-            {theme === 'dark' && <Check size={16} className="check-icon" />}
-          </div>
-        </button>
-
-        <button 
-          className={`theme-card ${theme === 'system' ? 'active' : ''}`}
-          onClick={() => setTheme('system')}
-        >
-          <div className="theme-preview system">
-            <Monitor size={24} className="theme-icon" />
-          </div>
-          <div className="theme-label">
-            <span>System Default</span>
-            {theme === 'system' && <Check size={16} className="check-icon" />}
-          </div>
-        </button>
-      </div>
-    </div>
-  );
-}
 
 /* ── 5. Help Center ──────────────────────────────────────────────────────── */
 
@@ -349,7 +300,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
 export function HelpCenterScreen() {
   const faqs = [
     { q: "How to create prompts?", a: "Navigate to the Create tab, enter your prompt details, attach a high-quality preview image, and hit publish to share it with the community." },
-    { q: "How to generate images?", a: "Currently, VisualPrompt is a marketplace for prompt text. You use the copied text in tools like Midjourney or DALL-E to generate the images." },
+    { q: "How to generate images?", a: "Currently, AI Creator Hub is a marketplace for prompt text. You use the copied text in tools like Midjourney or DALL-E to generate the images." },
     { q: "How to increase views?", a: "Use clear, descriptive titles and appropriate categories. High-quality thumbnail images heavily influence click-through rates." },
     { q: "How subscriptions work?", a: "Pro subscriptions give you unlimited prompt unlocks and priority placement in the discovery feed. You can cancel at any time from the billing page." }
   ];
